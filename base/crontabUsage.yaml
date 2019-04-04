@@ -1,0 +1,31 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    run: application
+  name: application
+spec:
+  schedule: "*/5 * * * *"
+  startingDeadlineSeconds: 10
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            run: application
+        spec:
+          containers:
+          - image: eu.gcr.io/application-gcp-project/application:{{version}}
+            name: application
+            resources: {}
+            env:
+              - name: "DATASET_NAME"
+                value: "Dataset"
+              - name: "APIKEY"
+                valueFrom:
+                  secretKeyRef:
+                    name: application
+                    key: "apikey"
+          restartPolicy: Never

@@ -1,0 +1,17 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    run: application
+  name: application
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - image: eu.gcr.io/application-gcp-project/application
+              name: application
+              env:
+                - name: "ENVIRONMENT"
+                  value: "dev"

@@ -1,0 +1,14 @@
+bases:
+- ../../base
+patchesStrategicMerge:
+- overlayUsage.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: eu.gcr.io/application-gcp-project/application:{{version}}
+  newTag: v0.1.0
+secretGenerator:
+- literals:
+  - apikey=fdhsqjlkfhdjsql
+  name: application
+  type: Opaque
